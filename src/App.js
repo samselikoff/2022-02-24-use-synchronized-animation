@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 export default function App() {
   let [count, setCount] = useState(5);
+  let [key, setKey] = useState(0);
 
   return (
     <div className="p-8">
@@ -18,11 +19,17 @@ export default function App() {
         >
           Remove
         </button>
+        <button
+          onClick={() => setKey((k) => k + 1)}
+          className="border border-zinc-300 px-2 py-1 active:bg-zinc-100"
+        >
+          Rerender
+        </button>
       </div>
 
       <div className="mt-4 space-y-6">
         {[...Array(count).keys()].map((el, i) => (
-          <Spinner key={i} />
+          <Spinner key={`${i}-${key}`} />
         ))}
       </div>
     </div>
@@ -76,7 +83,7 @@ function Spinner() {
       <path
         d="M15 0C6.716 0 0 6.716 0 15h4.5C4.5 9.201 9.201 4.5 15 4.5V0z"
         fill="currentColor"
-        // ref={ref}
+        ref={ref}
         className="text-sky-400 animate-spin origin-center"
       />
     </svg>
