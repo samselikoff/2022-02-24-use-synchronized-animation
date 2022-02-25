@@ -1,75 +1,38 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 export default function App() {
-  let [count, setCount] = useState(5);
-  let [key, setKey] = useState(0);
+  let [count, setCount] = useState(1);
 
   return (
     <div className="p-8">
       <div className="space-x-2">
         <button
           onClick={() => setCount((c) => c + 1)}
-          className="border border-zinc-300 px-2 py-1 active:bg-zinc-100"
+          className="px-2 py-1 border border-zinc-300 active:bg-zinc-100"
         >
           Add
         </button>
         <button
           onClick={() => setCount((c) => (c > 0 ? c - 1 : 0))}
-          className="border border-zinc-300 px-2 py-1 active:bg-zinc-100"
+          className="px-2 py-1 border border-zinc-300 active:bg-zinc-100"
         >
           Remove
-        </button>
-        <button
-          onClick={() => setKey((k) => k + 1)}
-          className="border border-zinc-300 px-2 py-1 active:bg-zinc-100"
-        >
-          Rerender
         </button>
       </div>
 
       <div className="mt-4 space-y-6">
         {[...Array(count).keys()].map((el, i) => (
-          <Spinner key={`${i}-${key}`} />
+          <Spinner key={i} />
         ))}
       </div>
     </div>
   );
 }
 
-let stashedTime;
-
 function Spinner() {
-  let ref = useRef();
-
-  useLayoutEffect(() => {
-    let spinAnimations = document
-      .getAnimations()
-      .filter((animation) => animation.animationName === "spin");
-
-    let myAnimation = spinAnimations.find(
-      (animation) => animation.effect.target === ref.current
-    );
-
-    // If we're the first spinner, use stashedTime
-    if (spinAnimations.indexOf(myAnimation) === 0 && stashedTime) {
-      myAnimation.currentTime = stashedTime;
-
-      // If we're not, sync our time with the first spinner's
-    } else if (spinAnimations.indexOf(myAnimation) > 0) {
-      myAnimation.currentTime = spinAnimations[0].currentTime;
-    }
-
-    return () => {
-      // Stash our time if we're the final spinner to be removed
-      if (spinAnimations.indexOf(myAnimation) === 0) {
-        stashedTime = myAnimation.currentTime;
-      }
-    };
-  }, []);
-
   return (
     <svg
-      className="mx-auto text-sky-400 w-10 h-10"
+      className="w-10 h-10 mx-auto text-sky-400"
       viewBox="0 0 30 30"
       fill="none"
     >
@@ -83,8 +46,7 @@ function Spinner() {
       <path
         d="M15 0C6.716 0 0 6.716 0 15h4.5C4.5 9.201 9.201 4.5 15 4.5V0z"
         fill="currentColor"
-        ref={ref}
-        className="text-sky-400 animate-spin origin-center"
+        className="origin-center text-sky-400 animate-spin"
       />
     </svg>
   );
