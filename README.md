@@ -1,4 +1,4 @@
-# How I fixed Twitter's loading screen (Synchronized Animations in React)
+# Fixing Twitter's loading screen using Synchronized Animations in React
 
 Source code of the demo from my YouTube video!
 
